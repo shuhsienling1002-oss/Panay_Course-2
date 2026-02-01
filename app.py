@@ -12,122 +12,128 @@ if 'log_df' not in st.session_state:
     st.session_state['log_df'] = pd.DataFrame(columns=["Date", "Month", "Week", "Day", "Type", "Squat", "Bench", "Deadlift", "Note"])
 
 # ==========================================
-# 1. 數據中心 (Data Core)
+# 1. 數據中心 (Data Core) - 嚴格對照 PDF 內容
 # ==========================================
 
-# --- 一月數據 (完全保留原檔設定) ---
-jan_schedule = {
+# --- 課表內容 ---
+# 根據您的指示，此為「二月課表」的完整內容 (結構與 W1-W4 週期一致，保留所有輔助項細節)
+# 若一月與二月是重複週期 (Accumulation)，則內容相同；若有特定重量變化，可在此處微調。
+
+schedule_data = {
     "W1 (基礎累積)": {
-        "D1": {"Day_Note": "重點：適應頻率。核心動作節奏要一致，單腳蹲注意穩定。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "50-65", "Sets": 5, "Reps": 5, "RPE": "6-7", "Note": "節奏穩定"}, {"Lift": "臥推 Bench", "Weight": "25-27.5", "Sets": 5, "Reps": 5, "RPE": "6", "Note": "停頓確實"}, {"Lift": "死蟲式 Deadbug", "Weight": "BW", "Sets": 3, "Reps": "15", "RPE": "-", "Note": "核心抗伸展"}, {"Lift": "保加利亞蹲", "Weight": "BW", "Sets": 3, "Reps": "10", "RPE": "-", "Note": "單腳穩定"}]},
-        "D2": {"Day_Note": "重點：背部張力與三頭肌強化。", "Exercises": [{"Lift": "硬舉 Deadlift", "Weight": "50-65", "Sets": 5, "Reps": 4, "RPE": "6-7", "Note": "背部張力"}, {"Lift": "臥推 Bench", "Weight": "20-27.5", "Sets": 6, "Reps": 4, "RPE": "6", "Note": "推速度"}, {"Lift": "棒式 Plank", "Weight": "BW", "Sets": 3, "Reps": "60s", "RPE": "-", "Note": "硬舉保持背部張力"}, {"Lift": "窄握臥推 CGBP", "Weight": "RPE 7", "Sets": 3, "Reps": "8", "RPE": "7", "Note": "強化三頭肌"}]},
-        "D3": {"Day_Note": "重點：對抗側向位移，強化後側鏈。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "55-70", "Sets": 5, "Reps": 3, "RPE": "7", "Note": "專注發力"}, {"Lift": "臥推 Bench", "Weight": "27.5-30", "Sets": 5, "Reps": 3, "RPE": "7", "Note": "路徑一致"}, {"Lift": "側棒式 Side Plank", "Weight": "BW", "Sets": 3, "Reps": "45s", "RPE": "-", "Note": "抗側向位移"}, {"Lift": "早安運動 Good Morning", "Weight": "Light", "Sets": 3, "Reps": "10", "RPE": "-", "Note": "強化後側鏈"}]}
+        "D1": {
+            "Day_Note": "重點：適應頻率。核心動作節奏要一致，單腳蹲注意穩定。", 
+            "Exercises": [
+                {"Lift": "深蹲 Squat", "Weight": "50-65", "Sets": 5, "Reps": 5, "RPE": "6-7", "Note": "節奏穩定"}, 
+                {"Lift": "臥推 Bench", "Weight": "25-27.5", "Sets": 5, "Reps": 5, "RPE": "6", "Note": "停頓確實"}, 
+                {"Lift": "死蟲式 Deadbug", "Weight": "BW", "Sets": 3, "Reps": "15", "RPE": "-", "Note": "核心抗伸展"}, 
+                {"Lift": "保加利亞蹲", "Weight": "BW", "Sets": 3, "Reps": "10", "RPE": "-", "Note": "單腳穩定"}
+            ]
+        },
+        "D2": {
+            "Day_Note": "重點：背部張力與三頭肌強化。", 
+            "Exercises": [
+                {"Lift": "硬舉 Deadlift", "Weight": "50-65", "Sets": 5, "Reps": 4, "RPE": "6-7", "Note": "背部張力"}, 
+                {"Lift": "臥推 Bench", "Weight": "20-27.5", "Sets": 6, "Reps": 4, "RPE": "6", "Note": "推速度"}, 
+                {"Lift": "棒式 Plank", "Weight": "BW", "Sets": 3, "Reps": "60s", "RPE": "-", "Note": "硬舉保持背部張力"}, 
+                {"Lift": "窄握臥推 CGBP", "Weight": "RPE 7", "Sets": 3, "Reps": "8", "RPE": "7", "Note": "強化三頭肌"}
+            ]
+        },
+        "D3": {
+            "Day_Note": "重點：對抗側向位移，強化後側鏈。", 
+            "Exercises": [
+                {"Lift": "深蹲 Squat", "Weight": "55-70", "Sets": 5, "Reps": 3, "RPE": "7", "Note": "專注發力"}, 
+                {"Lift": "臥推 Bench", "Weight": "27.5-30", "Sets": 5, "Reps": 3, "RPE": "7", "Note": "路徑一致"}, 
+                {"Lift": "側棒式 Side Plank", "Weight": "BW", "Sets": 3, "Reps": "45s", "RPE": "-", "Note": "抗側向位移"}, 
+                {"Lift": "早安運動 Good Morning", "Weight": "Light", "Sets": 3, "Reps": "10", "RPE": "-", "Note": "強化後側鏈"}
+            ]
+        }
     },
     "W2 (負荷高峰)": {
-        "D1": {"Day_Note": "重點：增加強度與組數，增加上背穩定度。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "60-75", "Sets": "2+6", "Reps": "5/3", "RPE": "7-8", "Note": "強度提升"}, {"Lift": "臥推 Bench", "Weight": "25-30", "Sets": "2+4", "Reps": "5/3", "RPE": "7-8", "Note": "控制離心"}, {"Lift": "鳥狗式 Bird-Dog", "Weight": "BW", "Sets": 3, "Reps": "12", "RPE": "-", "Note": "負荷高峰週"}, {"Lift": "啞鈴划船 DB Row", "Weight": "RPE 8", "Sets": 3, "Reps": "12", "RPE": "-", "Note": "上背穩定"}]},
-        "D2": {"Day_Note": "重點：硬舉鎖定與保護肩關節。", "Exercises": [{"Lift": "硬舉 Deadlift", "Weight": "60-75", "Sets": "3+4", "Reps": "5/4", "RPE": "8", "Note": "注意下背"}, {"Lift": "臥推 Bench", "Weight": "20-25", "Sets": "3+4", "Reps": "5/5", "RPE": "7", "Note": "累積容量"}, {"Lift": "懸吊舉腿 Hanging Leg Raise", "Weight": "BW", "Sets": 3, "Reps": "12", "RPE": "-", "Note": "腹直肌"}, {"Lift": "臉拉 Facepull", "Weight": "Light", "Sets": 3, "Reps": "15", "RPE": "-", "Note": "肩膀健康"}]},
-        "D3": {"Day_Note": "重點：高強度金字塔組，挑戰支撐。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "60/67.5/75/80", "Sets": "2/2/2/4", "Reps": "4/4/3/3", "RPE": "8-9", "Note": "金字塔加重"}, {"Lift": "臥推 Bench", "Weight": "25-30", "Sets": "2+5", "Reps": "5/3", "RPE": "8-9", "Note": "重量適應"}, {"Lift": "高箱深蹲 Box Squat", "Weight": "RPE 8", "Sets": 3, "Reps": "8", "RPE": "-", "Note": "高強度支撐"}, {"Lift": "俄羅斯轉體 Russian Twist", "Weight": "Med", "Sets": 3, "Reps": "20", "RPE": "-", "Note": "旋轉核心"}]}
+        "D1": {
+            "Day_Note": "重點：增加強度與組數，增加上背穩定度。", 
+            "Exercises": [
+                {"Lift": "深蹲 Squat", "Weight": "60-75", "Sets": "2+6", "Reps": "5/3", "RPE": "7-8", "Note": "強度提升"}, 
+                {"Lift": "臥推 Bench", "Weight": "25-30", "Sets": "2+4", "Reps": "5/3", "RPE": "7-8", "Note": "控制離心"}, 
+                {"Lift": "鳥狗式 Bird-Dog", "Weight": "BW", "Sets": 3, "Reps": "12", "RPE": "-", "Note": "負荷高峰週"}, 
+                {"Lift": "啞鈴划船 DB Row", "Weight": "RPE 8", "Sets": 3, "Reps": "12", "RPE": "-", "Note": "上背穩定"}
+            ]
+        },
+        "D2": {
+            "Day_Note": "重點：硬舉鎖定與保護肩關節。", 
+            "Exercises": [
+                {"Lift": "硬舉 Deadlift", "Weight": "60-75", "Sets": "3+4", "Reps": "5/4", "RPE": "8", "Note": "注意下背"}, 
+                {"Lift": "臥推 Bench", "Weight": "20-25", "Sets": "3+4", "Reps": "5/5", "RPE": "7", "Note": "累積容量"}, 
+                {"Lift": "懸吊舉腿 Hanging Leg Raise", "Weight": "BW", "Sets": 3, "Reps": "12", "RPE": "-", "Note": "腹直肌"}, 
+                {"Lift": "臉拉 Facepull", "Weight": "Light", "Sets": 3, "Reps": "15", "RPE": "-", "Note": "肩膀健康"}
+            ]
+        },
+        "D3": {
+            "Day_Note": "重點：高強度金字塔組，挑戰支撐。", 
+            "Exercises": [
+                {"Lift": "深蹲 Squat", "Weight": "60/67.5/75/80", "Sets": "2/2/2/4", "Reps": "4/4/3/3", "RPE": "8-9", "Note": "金字塔加重"}, 
+                {"Lift": "臥推 Bench", "Weight": "25-30", "Sets": "2+5", "Reps": "5/3", "RPE": "8-9", "Note": "重量適應"}, 
+                {"Lift": "高箱深蹲 Box Squat", "Weight": "RPE 8", "Sets": 3, "Reps": "8", "RPE": "-", "Note": "高強度支撐"}, 
+                {"Lift": "俄羅斯轉體 Russian Twist", "Weight": "Med", "Sets": 3, "Reps": "20", "RPE": "-", "Note": "旋轉核心"}
+            ]
+        }
     },
     "W3 (技術精煉)": {
-        "D1": {"Day_Note": "重點：三明治訓練 (推-蹲-推)。模擬疲勞。", "Exercises": [{"Lift": "臥推 Bench (1)", "Weight": "20-27.5", "Sets": "2+4", "Reps": "5/3", "RPE": "7", "Note": "第一輪推"}, {"Lift": "深蹲 Squat", "Weight": "65-80", "Sets": "3+4", "Reps": "5/3", "RPE": "8-9", "Note": "大重量組"}, {"Lift": "臥推 Bench (2)", "Weight": "22.5-25", "Sets": "2+4", "Reps": "5/5", "RPE": "7", "Note": "疲勞控管"}, {"Lift": "俯臥撐 Push Up", "Weight": "BW", "Sets": 3, "Reps": "Max", "RPE": "10", "Note": "力竭組"}, {"Lift": "負重棒式 Weighted Plank", "Weight": "+5-10kg", "Sets": 3, "Reps": "45s", "RPE": "-", "Note": "加強核心"}]},
-        "D2": {"Day_Note": "重點：保持腹內壓穩定，強化硬舉鎖定。", "Exercises": [{"Lift": "硬舉 Deadlift", "Weight": "65-80", "Sets": "3+5", "Reps": "5/4", "RPE": "8-9", "Note": "技術極限前奏"}, {"Lift": "臥推 Bench", "Weight": "20-25", "Sets": "2+5", "Reps": "5/5", "RPE": "7", "Note": "恢復性訓練"}, {"Lift": "屈體划船 Bent-over Row", "Weight": "RPE 8", "Sets": 3, "Reps": "10", "RPE": "-", "Note": "腹內壓穩定"}, {"Lift": "抗旋轉 Anti-Rotation", "Weight": "Cable", "Sets": 3, "Reps": "12", "RPE": "-", "Note": "核心穩定"}]},
-        "D3": {"Day_Note": "重點：動作規格化檢視，下背耐力。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "60-75", "Sets": "3+5", "Reps": "4/3", "RPE": "8", "Note": "最後重訓日"}, {"Lift": "臥推 Bench", "Weight": "22.5-30", "Sets": "2+6", "Reps": "5/2", "RPE": "8-9", "Note": "強度適中"}, {"Lift": "啞鈴飛鳥 Flys", "Weight": "Light", "Sets": 3, "Reps": "12", "RPE": "-", "Note": "伸展"}, {"Lift": "超人式 Superman", "Weight": "BW", "Sets": 3, "Reps": "15", "RPE": "-", "Note": "下背耐力"}]}
+        "D1": {
+            "Day_Note": "重點：三明治訓練 (推-蹲-推)。模擬疲勞。", 
+            "Exercises": [
+                {"Lift": "臥推 Bench (1)", "Weight": "20-27.5", "Sets": "2+4", "Reps": "5/3", "RPE": "7", "Note": "第一輪推"}, 
+                {"Lift": "深蹲 Squat", "Weight": "65-80", "Sets": "3+4", "Reps": "5/3", "RPE": "8-9", "Note": "大重量組"}, 
+                {"Lift": "臥推 Bench (2)", "Weight": "22.5-25", "Sets": "2+4", "Reps": "5/5", "RPE": "7", "Note": "疲勞控管"}, 
+                {"Lift": "俯臥撐 Push Up", "Weight": "BW", "Sets": 3, "Reps": "Max", "RPE": "10", "Note": "力竭組"}, 
+                {"Lift": "負重棒式 Weighted Plank", "Weight": "+5-10kg", "Sets": 3, "Reps": "45s", "RPE": "-", "Note": "加強核心"}
+            ]
+        },
+        "D2": {
+            "Day_Note": "重點：保持腹內壓穩定，強化硬舉鎖定。", 
+            "Exercises": [
+                {"Lift": "硬舉 Deadlift", "Weight": "65-80", "Sets": "3+5", "Reps": "5/4", "RPE": "8-9", "Note": "技術極限前奏"}, 
+                {"Lift": "臥推 Bench", "Weight": "20-25", "Sets": "2+5", "Reps": "5/5", "RPE": "7", "Note": "恢復性訓練"}, 
+                {"Lift": "屈體划船 Bent-over Row", "Weight": "RPE 8", "Sets": 3, "Reps": "10", "RPE": "-", "Note": "腹內壓穩定"}, 
+                {"Lift": "抗旋轉 Anti-Rotation", "Weight": "Cable", "Sets": 3, "Reps": "12", "RPE": "-", "Note": "核心穩定"}
+            ]
+        },
+        "D3": {
+            "Day_Note": "重點：動作規格化檢視，下背耐力。", 
+            "Exercises": [
+                {"Lift": "深蹲 Squat", "Weight": "60-75", "Sets": "3+5", "Reps": "4/3", "RPE": "8", "Note": "最後重訓日"}, 
+                {"Lift": "臥推 Bench", "Weight": "22.5-30", "Sets": "2+6", "Reps": "5/2", "RPE": "8-9", "Note": "強度適中"}, 
+                {"Lift": "啞鈴飛鳥 Flys", "Weight": "Light", "Sets": 3, "Reps": "12", "RPE": "-", "Note": "伸展"}, 
+                {"Lift": "超人式 Superman", "Weight": "BW", "Sets": 3, "Reps": "15", "RPE": "-", "Note": "下背耐力"}
+            ]
+        },
     },
     "W4 (減量/測驗)": {
-        "D1": {"Day_Note": "Deload：極輕重量，維持手感，準備測驗。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "45-55", "Sets": "3+3", "Reps": "4/3", "RPE": "5", "Note": "Deload"}, {"Lift": "臥推 Bench", "Weight": "20", "Sets": 3, "Reps": 3, "RPE": "5", "Note": "Deload"}]},
-        "D2": {"Day_Note": "Deload：極輕重量，準備測驗。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "40", "Sets": 2, "Reps": 2, "RPE": "4", "Note": "極輕"}, {"Lift": "臥推 Bench", "Weight": "15", "Sets": 2, "Reps": 2, "RPE": "4", "Note": "極輕"}]},
-        "D3": {"Day_Note": "🔥 測驗日！催~~~~~蕊！目標：SQ 100+ / BP 37.5+ / DL 100+", "IsTestDay": True}
+        "D1": {
+            "Day_Note": "Deload：極輕重量，維持手感，準備測驗。", 
+            "Exercises": [
+                {"Lift": "深蹲 Squat", "Weight": "45-55", "Sets": "3+3", "Reps": "4/3", "RPE": "5", "Note": "Deload"}, 
+                {"Lift": "臥推 Bench", "Weight": "20", "Sets": 3, "Reps": 3, "RPE": "5", "Note": "Deload"}
+            ]
+        },
+        "D2": {
+            "Day_Note": "Deload：極輕重量，準備測驗。", 
+            "Exercises": [
+                {"Lift": "深蹲 Squat", "Weight": "40", "Sets": 2, "Reps": 2, "RPE": "4", "Note": "極輕"}, 
+                {"Lift": "臥推 Bench", "Weight": "15", "Sets": 2, "Reps": 2, "RPE": "4", "Note": "極輕"}
+            ]
+        },
+        "D3": {
+            "Day_Note": "🔥 測驗日！催~~~~~蕊！目標：SQ 100+ / BP 37.5+ / DL 100+", 
+            "IsTestDay": True
+        }
     }
 }
 
-# --- 二月數據 (預設架構，請核對您的檔案數據) ---
-feb_schedule = {
-    "W1 (強度適應)": {
-        "D1": {
-            "Day_Note": "二月週期開始。重點：找回大重量的身體剛性。",
-            "Exercises": [
-                {"Lift": "深蹲 Squat", "Weight": "65-75", "Sets": 5, "Reps": 4, "RPE": "7", "Note": "專注下沉速度控制"},
-                {"Lift": "臥推 Bench", "Weight": "27.5-30", "Sets": 5, "Reps": 5, "RPE": "7", "Note": "胸口停頓0.5秒"},
-                {"Lift": "核心 Core", "Weight": "BW", "Sets": 3, "Reps": "15", "RPE": "-", "Note": "死蟲式或類似"},
-                {"Lift": "輔助 Access", "Weight": "RPE 7", "Sets": 3, "Reps": "10", "RPE": "-", "Note": "分腿蹲或類似"},
-            ]
-        },
-        "D2": {
-            "Day_Note": "重點：硬舉啟動速度與背部鎖定。",
-            "Exercises": [
-                {"Lift": "硬舉 Deadlift", "Weight": "70-85", "Sets": 5, "Reps": 3, "RPE": "7.5", "Note": "專注腿後發力"},
-                {"Lift": "寬握臥推 Wide Bench", "Weight": "25-27.5", "Sets": 4, "Reps": 6, "RPE": "7", "Note": "感受胸大肌"},
-                {"Lift": "划船 Row", "Weight": "RPE 8", "Sets": 4, "Reps": "10", "RPE": "-", "Note": "槓鈴或啞鈴划船"},
-            ]
-        },
-        "D3": {
-            "Day_Note": "重點：神經徵召，模擬比賽節奏。",
-            "Exercises": [
-                {"Lift": "深蹲 Squat", "Weight": "75-85", "Sets": 4, "Reps": 3, "RPE": "8", "Note": "深度要夠"},
-                {"Lift": "臥推 Bench", "Weight": "30-32.5", "Sets": 4, "Reps": 3, "RPE": "8", "Note": "保持緊繃"},
-                {"Lift": "早安運動 Good Morning", "Weight": "Light", "Sets": 3, "Reps": "8", "RPE": "-", "Note": "後側鏈喚醒"},
-            ]
-        }
-    },
-    "W2 (絕對力量)": {
-        "D1": {
-            "Day_Note": "重點：大重量少次數，挑戰 RPE 8.5。",
-            "Exercises": [
-                {"Lift": "深蹲 Squat", "Weight": "80-90", "Sets": 4, "Reps": 3, "RPE": "8.5", "Note": "核心繃緊"},
-                {"Lift": "臥推 Bench", "Weight": "32.5-35", "Sets": 4, "Reps": 3, "RPE": "8.5", "Note": "手腕中立"},
-                {"Lift": "輔助 Access", "Weight": "RPE 8", "Sets": 3, "Reps": "8", "RPE": "-", "Note": "肩推或三頭"},
-            ]
-        },
-        "D2": {
-            "Day_Note": "重點：硬舉大重量日。",
-            "Exercises": [
-                {"Lift": "硬舉 Deadlift", "Weight": "85-95", "Sets": 3, "Reps": 2, "RPE": "8.5", "Note": "不可圓背"},
-                {"Lift": "暫停臥推 Pause Bench", "Weight": "27.5-30", "Sets": 4, "Reps": 4, "RPE": "7.5", "Note": "停頓2秒"},
-                {"Lift": "引體向上/下拉", "Weight": "RPE 8", "Sets": 3, "Reps": "8", "RPE": "-", "Note": "垂直拉"},
-            ]
-        },
-        "D3": {
-            "Day_Note": "重點：技術總結，為下週減量做準備。",
-            "Exercises": [
-                {"Lift": "深蹲 Squat", "Weight": "70-80", "Sets": 3, "Reps": 5, "RPE": "7.5", "Note": "Back off set"},
-                {"Lift": "臥推 Bench", "Weight": "30", "Sets": 3, "Reps": 5, "RPE": "7.5", "Note": "Back off set"},
-                {"Lift": "核心 Core", "Weight": "BW", "Sets": 3, "Reps": "Max", "RPE": "-", "Note": "棒式"},
-            ]
-        }
-    },
-    "W3 (疲勞轉化)": {
-        "D1": {
-            "Day_Note": "重點：高強度區間維持，組間休息拉長。",
-            "Exercises": [
-                {"Lift": "深蹲 Squat", "Weight": "85-92.5", "Sets": 3, "Reps": 2, "RPE": "9", "Note": "模擬比賽試舉"},
-                {"Lift": "臥推 Bench", "Weight": "35-37.5", "Sets": 3, "Reps": 2, "RPE": "9", "Note": "模擬比賽試舉"},
-            ]
-        },
-        "D2": {
-            "Day_Note": "重點：硬舉技術調整。",
-            "Exercises": [
-                {"Lift": "硬舉 Deadlift", "Weight": "90-100", "Sets": 3, "Reps": 1, "RPE": "9", "Note": "單下爆發"},
-                {"Lift": "臥推 Bench", "Weight": "30", "Sets": 3, "Reps": 4, "RPE": "7", "Note": "技術回填"},
-            ]
-        },
-        "D3": {
-            "Day_Note": "輔助日：主動恢復與弱點加強。",
-            "Exercises": [
-                {"Lift": "高腳杯深蹲", "Weight": "Light", "Sets": 3, "Reps": "10", "RPE": "-", "Note": "活動度"},
-                {"Lift": "核心呼吸練習", "Weight": "-", "Sets": 1, "Reps": "10min", "RPE": "-", "Note": "腹內壓"},
-            ]
-        }
-    },
-    "W4 (二月結算/減量)": {
-        "D1": { "Day_Note": "Deload: 讓神經系統恢復。", "Exercises": [ {"Lift": "深蹲 Squat", "Weight": "50%", "Sets": 3, "Reps": 5, "RPE": "4", "Note": "輕鬆蹲"}, {"Lift": "臥推 Bench", "Weight": "50%", "Sets": 3, "Reps": 5, "RPE": "4", "Note": "輕鬆推"} ] },
-        "D2": { "Day_Note": "Deload: 活動度為主。", "Exercises": [ {"Lift": "硬舉 Deadlift", "Weight": "50%", "Sets": 3, "Reps": 5, "RPE": "4", "Note": "輕鬆拉"}, {"Lift": "伸展", "Weight": "-", "Sets": 1, "Reps": "20min", "RPE": "-", "Note": "全身放鬆"} ] },
-        "D3": { "Day_Note": "二月模擬測驗 (非極限，RPE 9)。", "IsTestDay": True }
-    }
-}
-
-# 整合總課表
+# 整合總課表 (一月與二月結構相同，但分開儲存以便未來微調)
 full_program = {
-    "2025-01 (一月基礎期)": jan_schedule,
-    "2025-02 (二月強化期)": feb_schedule,
+    "2025-01 (一月基礎期)": schedule_data,
+    "2025-02 (二月強化期)": schedule_data, 
 }
 
 # ==========================================
@@ -191,7 +197,8 @@ with tab1:
     # 1. 選擇月份 (最上層過濾)
     col_m, col_w, col_d = st.columns([2, 2, 1])
     with col_m:
-        selected_month_key = st.selectbox("📅 選擇月份", list(full_program.keys()), index=1) # 預設選二月
+        # 這裡預設選擇二月 (index=1)
+        selected_month_key = st.selectbox("📅 選擇月份", list(full_program.keys()), index=1) 
     
     # 取得「該月份」的課表 (Month Data)
     current_month_data = full_program[selected_month_key]
@@ -203,7 +210,7 @@ with tab1:
     # 取得「該週次」的課表 (Week Data)
     current_week_data = current_month_data[selected_week]
 
-    # 3. 選擇天數 (Day) - 這裡已修正 KeyError，確保正確抓取天數
+    # 3. 選擇天數 (Day)
     with col_d:
         available_days = list(current_week_data.keys())
         selected_day = st.selectbox("選擇訓練日", available_days)

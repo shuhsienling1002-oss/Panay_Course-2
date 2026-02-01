@@ -15,10 +15,10 @@ if 'log_df' not in st.session_state:
 # 1. 數據中心 (Data Core)
 # ==========================================
 
-# --- 一月數據 ---
+# --- 一月數據 (完全保留原檔設定) ---
 jan_schedule = {
     "W1 (基礎累積)": {
-        "D1": {"Day_Note": "重點：適應頻率。核心動作節奏要一致。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "50-65", "Sets": 5, "Reps": 5, "RPE": "6-7", "Note": "節奏穩定"}, {"Lift": "臥推 Bench", "Weight": "25-27.5", "Sets": 5, "Reps": 5, "RPE": "6", "Note": "停頓確實"}, {"Lift": "死蟲式 Deadbug", "Weight": "BW", "Sets": 3, "Reps": "15", "RPE": "-", "Note": "核心抗伸展"}, {"Lift": "保加利亞蹲", "Weight": "BW", "Sets": 3, "Reps": "10", "RPE": "-", "Note": "單腳穩定"}]},
+        "D1": {"Day_Note": "重點：適應頻率。核心動作節奏要一致，單腳蹲注意穩定。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "50-65", "Sets": 5, "Reps": 5, "RPE": "6-7", "Note": "節奏穩定"}, {"Lift": "臥推 Bench", "Weight": "25-27.5", "Sets": 5, "Reps": 5, "RPE": "6", "Note": "停頓確實"}, {"Lift": "死蟲式 Deadbug", "Weight": "BW", "Sets": 3, "Reps": "15", "RPE": "-", "Note": "核心抗伸展"}, {"Lift": "保加利亞蹲", "Weight": "BW", "Sets": 3, "Reps": "10", "RPE": "-", "Note": "單腳穩定"}]},
         "D2": {"Day_Note": "重點：背部張力與三頭肌強化。", "Exercises": [{"Lift": "硬舉 Deadlift", "Weight": "50-65", "Sets": 5, "Reps": 4, "RPE": "6-7", "Note": "背部張力"}, {"Lift": "臥推 Bench", "Weight": "20-27.5", "Sets": 6, "Reps": 4, "RPE": "6", "Note": "推速度"}, {"Lift": "棒式 Plank", "Weight": "BW", "Sets": 3, "Reps": "60s", "RPE": "-", "Note": "硬舉保持背部張力"}, {"Lift": "窄握臥推 CGBP", "Weight": "RPE 7", "Sets": 3, "Reps": "8", "RPE": "7", "Note": "強化三頭肌"}]},
         "D3": {"Day_Note": "重點：對抗側向位移，強化後側鏈。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "55-70", "Sets": 5, "Reps": 3, "RPE": "7", "Note": "專注發力"}, {"Lift": "臥推 Bench", "Weight": "27.5-30", "Sets": 5, "Reps": 3, "RPE": "7", "Note": "路徑一致"}, {"Lift": "側棒式 Side Plank", "Weight": "BW", "Sets": 3, "Reps": "45s", "RPE": "-", "Note": "抗側向位移"}, {"Lift": "早安運動 Good Morning", "Weight": "Light", "Sets": 3, "Reps": "10", "RPE": "-", "Note": "強化後側鏈"}]}
     },
@@ -28,18 +28,18 @@ jan_schedule = {
         "D3": {"Day_Note": "重點：高強度金字塔組，挑戰支撐。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "60/67.5/75/80", "Sets": "2/2/2/4", "Reps": "4/4/3/3", "RPE": "8-9", "Note": "金字塔加重"}, {"Lift": "臥推 Bench", "Weight": "25-30", "Sets": "2+5", "Reps": "5/3", "RPE": "8-9", "Note": "重量適應"}, {"Lift": "高箱深蹲 Box Squat", "Weight": "RPE 8", "Sets": 3, "Reps": "8", "RPE": "-", "Note": "高強度支撐"}, {"Lift": "俄羅斯轉體 Russian Twist", "Weight": "Med", "Sets": 3, "Reps": "20", "RPE": "-", "Note": "旋轉核心"}]}
     },
     "W3 (技術精煉)": {
-        "D1": {"Day_Note": "重點：三明治訓練 (推-蹲-推)。", "Exercises": [{"Lift": "臥推 Bench (1)", "Weight": "20-27.5", "Sets": "2+4", "Reps": "5/3", "RPE": "7", "Note": "第一輪推"}, {"Lift": "深蹲 Squat", "Weight": "65-80", "Sets": "3+4", "Reps": "5/3", "RPE": "8-9", "Note": "大重量組"}, {"Lift": "臥推 Bench (2)", "Weight": "22.5-25", "Sets": "2+4", "Reps": "5/5", "RPE": "7", "Note": "疲勞控管"}, {"Lift": "俯臥撐 Push Up", "Weight": "BW", "Sets": 3, "Reps": "Max", "RPE": "10", "Note": "力竭組"}, {"Lift": "負重棒式 Weighted Plank", "Weight": "+5-10kg", "Sets": 3, "Reps": "45s", "RPE": "-", "Note": "加強核心"}]},
+        "D1": {"Day_Note": "重點：三明治訓練 (推-蹲-推)。模擬疲勞。", "Exercises": [{"Lift": "臥推 Bench (1)", "Weight": "20-27.5", "Sets": "2+4", "Reps": "5/3", "RPE": "7", "Note": "第一輪推"}, {"Lift": "深蹲 Squat", "Weight": "65-80", "Sets": "3+4", "Reps": "5/3", "RPE": "8-9", "Note": "大重量組"}, {"Lift": "臥推 Bench (2)", "Weight": "22.5-25", "Sets": "2+4", "Reps": "5/5", "RPE": "7", "Note": "疲勞控管"}, {"Lift": "俯臥撐 Push Up", "Weight": "BW", "Sets": 3, "Reps": "Max", "RPE": "10", "Note": "力竭組"}, {"Lift": "負重棒式 Weighted Plank", "Weight": "+5-10kg", "Sets": 3, "Reps": "45s", "RPE": "-", "Note": "加強核心"}]},
         "D2": {"Day_Note": "重點：保持腹內壓穩定，強化硬舉鎖定。", "Exercises": [{"Lift": "硬舉 Deadlift", "Weight": "65-80", "Sets": "3+5", "Reps": "5/4", "RPE": "8-9", "Note": "技術極限前奏"}, {"Lift": "臥推 Bench", "Weight": "20-25", "Sets": "2+5", "Reps": "5/5", "RPE": "7", "Note": "恢復性訓練"}, {"Lift": "屈體划船 Bent-over Row", "Weight": "RPE 8", "Sets": 3, "Reps": "10", "RPE": "-", "Note": "腹內壓穩定"}, {"Lift": "抗旋轉 Anti-Rotation", "Weight": "Cable", "Sets": 3, "Reps": "12", "RPE": "-", "Note": "核心穩定"}]},
         "D3": {"Day_Note": "重點：動作規格化檢視，下背耐力。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "60-75", "Sets": "3+5", "Reps": "4/3", "RPE": "8", "Note": "最後重訓日"}, {"Lift": "臥推 Bench", "Weight": "22.5-30", "Sets": "2+6", "Reps": "5/2", "RPE": "8-9", "Note": "強度適中"}, {"Lift": "啞鈴飛鳥 Flys", "Weight": "Light", "Sets": 3, "Reps": "12", "RPE": "-", "Note": "伸展"}, {"Lift": "超人式 Superman", "Weight": "BW", "Sets": 3, "Reps": "15", "RPE": "-", "Note": "下背耐力"}]}
     },
     "W4 (減量/測驗)": {
         "D1": {"Day_Note": "Deload：極輕重量，維持手感，準備測驗。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "45-55", "Sets": "3+3", "Reps": "4/3", "RPE": "5", "Note": "Deload"}, {"Lift": "臥推 Bench", "Weight": "20", "Sets": 3, "Reps": 3, "RPE": "5", "Note": "Deload"}]},
         "D2": {"Day_Note": "Deload：極輕重量，準備測驗。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "40", "Sets": 2, "Reps": 2, "RPE": "4", "Note": "極輕"}, {"Lift": "臥推 Bench", "Weight": "15", "Sets": 2, "Reps": 2, "RPE": "4", "Note": "極輕"}]},
-        "D3": {"Day_Note": "🔥 測驗日！目標：SQ 100+ / BP 37.5+ / DL 100+", "IsTestDay": True}
+        "D3": {"Day_Note": "🔥 測驗日！催~~~~~蕊！目標：SQ 100+ / BP 37.5+ / DL 100+", "IsTestDay": True}
     }
 }
 
-# --- 二月數據 ---
+# --- 二月數據 (預設架構，請核對您的檔案數據) ---
 feb_schedule = {
     "W1 (強度適應)": {
         "D1": {
@@ -203,12 +203,12 @@ with tab1:
     # 取得「該週次」的課表 (Week Data)
     current_week_data = current_month_data[selected_week]
 
-    # 3. 選擇天數 (Day) - 動態讀取該週有的天數
+    # 3. 選擇天數 (Day) - 這裡已修正 KeyError，確保正確抓取天數
     with col_d:
         available_days = list(current_week_data.keys())
         selected_day = st.selectbox("選擇訓練日", available_days)
 
-    # 修正重點：現在才抓取「當天」的資料
+    # 取得「當天」的數據 (Day Data)
     todays_data = current_week_data[selected_day]
 
     # 顯示課表內容
@@ -238,23 +238,24 @@ with tab1:
 
     else:
         # 一般訓練日
-        exercises = todays_data["Exercises"]
-        for ex in exercises:
-            st.subheader(f"🔹 {ex['Lift']}")
-            c1, c2, c3 = st.columns(3)
-            c1.metric("重量", ex['Weight'])
-            c2.metric("組數", ex['Sets'])
-            c3.metric("次數", ex['Reps'])
-            st.caption(f"🎯 RPE: {ex['RPE']} | 📝 {ex['Note']}")
-            
-            # 互動式 Checkbox
-            if isinstance(ex['Sets'], int):
-                cols = st.columns(min(ex['Sets'], 8)) # 避免太多列
-                for j in range(ex['Sets']):
-                    cols[j % 8].checkbox(f"{j+1}", key=f"{selected_month_key}_{selected_week}_{selected_day}_{ex['Lift']}_{j}")
-            else:
-                st.checkbox("✅ 完成", key=f"{selected_month_key}_{selected_week}_{selected_day}_{ex['Lift']}_all")
-            st.divider()
+        if "Exercises" in todays_data:
+            exercises = todays_data["Exercises"]
+            for ex in exercises:
+                st.subheader(f"🔹 {ex['Lift']}")
+                c1, c2, c3 = st.columns(3)
+                c1.metric("重量", ex['Weight'])
+                c2.metric("組數", ex['Sets'])
+                c3.metric("次數", ex['Reps'])
+                st.caption(f"🎯 RPE: {ex['RPE']} | 📝 {ex['Note']}")
+                
+                # 互動式 Checkbox
+                if isinstance(ex['Sets'], int):
+                    cols = st.columns(min(ex['Sets'], 8)) # 避免太多列
+                    for j in range(ex['Sets']):
+                        cols[j % 8].checkbox(f"{j+1}", key=f"{selected_month_key}_{selected_week}_{selected_day}_{ex['Lift']}_{j}")
+                else:
+                    st.checkbox("✅ 完成", key=f"{selected_month_key}_{selected_week}_{selected_day}_{ex['Lift']}_all")
+                st.divider()
 
         user_note = st.text_area("訓練筆記", height=100, placeholder="今天狀況如何？...")
         

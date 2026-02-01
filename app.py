@@ -15,7 +15,7 @@ if 'log_df' not in st.session_state:
 # 1. 數據中心 (Data Core)
 # ==========================================
 
-# --- 一月數據 (Jan) - 保持原樣 ---
+# --- 一月數據 (Jan) ---
 jan_schedule = {
     "W1 (基礎累積)": {
         "D1": {"Day_Note": "重點：適應頻率。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "50-65", "Sets": 5, "Reps": 5, "RPE": "6-7", "Note": "節奏穩定"}, {"Lift": "臥推 Bench", "Weight": "25-27.5", "Sets": 5, "Reps": 5, "RPE": "6", "Note": "停頓確實"}, {"Lift": "死蟲式 Deadbug", "Weight": "BW", "Sets": 3, "Reps": "15", "RPE": "-", "Note": "核心"}, {"Lift": "保加利亞蹲", "Weight": "BW", "Sets": 3, "Reps": "10", "RPE": "-", "Note": "單腳"}]},
@@ -39,30 +39,29 @@ jan_schedule = {
     }
 }
 
-# --- 二月數據 (Feb) - 嚴格對照您提供的列表 ---
-# 註：部分重量/組數是從您的CSV片段中提取的(如架上硬舉95, 4x4)，其餘標示為「依課表」
+# --- 二月數據 (Feb) - 數據源自您的檔案與文字列表 ---
 feb_schedule = {
     "W1 (基礎累積)": {
         "D1": {
             "Day_Note": "重點：深蹲、臥推",
             "Exercises": [
-                {"Lift": "深蹲 Squat", "Weight": "依課表", "Sets": 5, "Reps": 4, "RPE": "7", "Note": "控制"},
-                {"Lift": "臥推 Bench", "Weight": "依課表", "Sets": 5, "Reps": 5, "RPE": "6", "Note": "收肩胛"}
+                {"Lift": "深蹲 Squat", "Weight": "60-70", "Sets": 5, "Reps": 4, "RPE": "7", "Note": "強調下蹲控制"},
+                {"Lift": "臥推 Bench", "Weight": "22.5-27.5", "Sets": 5, "Reps": 5, "RPE": "6", "Note": "收肩胛"}
             ]
         },
         "D2": {
             "Day_Note": "重點：硬舉、架上硬舉",
             "Exercises": [
-                {"Lift": "硬舉 Deadlift", "Weight": "依課表", "Sets": 4, "Reps": 3, "RPE": "7", "Note": "主項"},
-                {"Lift": "架上硬舉 Rack Pull", "Weight": "95", "Sets": 4, "Reps": 4, "RPE": "-", "Note": "輔助項"},
-                {"Lift": "臥推 Bench", "Weight": "依課表", "Sets": 6, "Reps": 4, "RPE": "6", "Note": "輔助"}
+                {"Lift": "硬舉 Deadlift", "Weight": "75-85", "Sets": 4, "Reps": 3, "RPE": "7", "Note": "停頓1秒"},
+                {"Lift": "架上硬舉 Rack Pull", "Weight": "95", "Sets": 4, "Reps": 4, "RPE": "-", "Note": "輔助強度"},
+                {"Lift": "臥推 Bench", "Weight": "20-25", "Sets": 6, "Reps": 4, "RPE": "6", "Note": "三頭穩定"}
             ]
         },
         "D3": {
             "Day_Note": "重點：深蹲、臥推",
             "Exercises": [
-                {"Lift": "深蹲 Squat", "Weight": "依課表", "Sets": 5, "Reps": 5, "RPE": "6", "Note": "技術"},
-                {"Lift": "臥推 Bench", "Weight": "依課表", "Sets": 4, "Reps": 3, "RPE": "7", "Note": "技術"}
+                {"Lift": "深蹲 Squat", "Weight": "55-65", "Sets": 5, "Reps": 5, "RPE": "6", "Note": "技術回顧"},
+                {"Lift": "臥推 Bench", "Weight": "25-30", "Sets": 4, "Reps": 3, "RPE": "7", "Note": "穩定度"}
             ]
         }
     },
@@ -70,50 +69,50 @@ feb_schedule = {
         "D1": {
             "Day_Note": "重點：深蹲、坐姿、臥推",
             "Exercises": [
-                {"Lift": "深蹲 Squat", "Weight": "依課表", "Sets": 6, "Reps": 3, "RPE": "8", "Note": "強度"},
-                {"Lift": "坐姿 Seated", "Weight": "95", "Sets": 4, "Reps": 3, "RPE": "-", "Note": "輔助"},
-                {"Lift": "臥推 Bench", "Weight": "依課表", "Sets": 5, "Reps": 3, "RPE": "8", "Note": "強度"}
+                {"Lift": "深蹲 Squat", "Weight": "70-77.5", "Sets": 6, "Reps": 3, "RPE": "8", "Note": "負荷高峰"},
+                {"Lift": "坐姿 Seated", "Weight": "95", "Sets": 4, "Reps": 3, "RPE": "-", "Note": "超負荷輔助"},
+                {"Lift": "臥推 Bench", "Weight": "27.5-30", "Sets": 5, "Reps": 3, "RPE": "8", "Note": "強度提升"}
             ]
         },
         "D2": {
-            "Day_Note": "重點：硬舉、單腿",
+            "Day_Note": "重點：硬舉、單腿硬舉",
             "Exercises": [
-                {"Lift": "硬舉 Deadlift", "Weight": "依課表", "Sets": 5, "Reps": 2, "RPE": "8", "Note": "主項"},
-                {"Lift": "單腿硬舉 Single Leg", "Weight": "BW/依課表", "Sets": 5, "Reps": 5, "RPE": "-", "Note": "單邊補強"},
-                {"Lift": "臥推 Bench", "Weight": "依課表", "Sets": 5, "Reps": 4, "RPE": "7", "Note": "容量"}
+                {"Lift": "硬舉 Deadlift", "Weight": "85-95", "Sets": 5, "Reps": 2, "RPE": "8", "Note": "大重量"},
+                {"Lift": "單腿硬舉 Single Leg", "Weight": "自重", "Sets": 5, "Reps": 5, "RPE": "-", "Note": "單邊平衡"},
+                {"Lift": "臥推 Bench", "Weight": "25-30", "Sets": 5, "Reps": 4, "RPE": "7", "Note": "容量累積"}
             ]
         },
         "D3": {
             "Day_Note": "重點：深蹲、架上握推",
             "Exercises": [
-                {"Lift": "深蹲 Squat", "Weight": "依課表", "Sets": 5, "Reps": 3, "RPE": "8", "Note": "強度"},
-                {"Lift": "臥推 Bench", "Weight": "依課表", "Sets": 3, "Reps": 3, "RPE": "8", "Note": "主項"},
-                {"Lift": "架上握推 Rack Bench", "Weight": "依課表", "Sets": "依課表", "Reps": "依課表", "RPE": "-", "Note": "行程縮短"}
+                {"Lift": "深蹲 Squat", "Weight": "65-75", "Sets": 5, "Reps": 3, "RPE": "8", "Note": "穩定"},
+                {"Lift": "臥推 Bench", "Weight": "30-32.5", "Sets": 4, "Reps": 3, "RPE": "8", "Note": "主項強度"},
+                {"Lift": "架上握推 Rack Bench", "Weight": "RPE 7", "Sets": 3, "Reps": 5, "RPE": "7", "Note": "行程縮短"}
             ]
         }
     },
     "W3 (轉化/模擬)": {
         "D1": {
-            "Day_Note": "重點：三明治訓練 (臥推-深蹲-臥推)",
+            "Day_Note": "重點：三明治訓練 (推-蹲-推)",
             "Exercises": [
-                {"Lift": "臥推 Bench (1)", "Weight": "依課表", "Sets": "依課表", "Reps": "依課表", "RPE": "9", "Note": "第一輪"},
-                {"Lift": "深蹲 Squat", "Weight": "依課表", "Sets": "依課表", "Reps": "依課表", "RPE": "9", "Note": "中段安插"},
-                {"Lift": "臥推 Bench (2)", "Weight": "依課表", "Sets": "依課表", "Reps": "依課表", "RPE": "8", "Note": "第二輪"}
+                {"Lift": "臥推 Bench (1)", "Weight": "25-30", "Sets": 5, "Reps": 3, "RPE": "7.5", "Note": "第一輪"},
+                {"Lift": "深蹲 Squat", "Weight": "75-85", "Sets": 4, "Reps": 3, "RPE": "8.5", "Note": "中段大重量"},
+                {"Lift": "臥推 Bench (2)", "Weight": "25-27.5", "Sets": 4, "Reps": 5, "RPE": "7", "Note": "第二輪疲勞"}
             ]
         },
         "D2": {
             "Day_Note": "重點：硬舉、臥推",
             "Exercises": [
-                {"Lift": "硬舉 Deadlift", "Weight": "依課表", "Sets": "依課表", "Reps": "依課表", "RPE": "9", "Note": "強度"},
-                {"Lift": "臥推 Bench", "Weight": "依課表", "Sets": "依課表", "Reps": "依課表", "RPE": "7", "Note": "技術"}
+                {"Lift": "硬舉 Deadlift", "Weight": "90-100", "Sets": 3, "Reps": 2, "RPE": "9", "Note": "模擬開把"},
+                {"Lift": "臥推 Bench", "Weight": "27.5-32.5", "Sets": 4, "Reps": 3, "RPE": "8", "Note": "技術維持"}
             ]
         },
         "D3": {
-            "Day_Note": "重點：深蹲、保加利亞蹲、臥推",
+            "Day_Note": "重點：保加利亞蹲、臥推",
             "Exercises": [
-                {"Lift": "深蹲 Squat", "Weight": "依課表", "Sets": "依課表", "Reps": "依課表", "RPE": "8", "Note": "維持"},
-                {"Lift": "保加利亞蹲 Bulgarian", "Weight": "依課表", "Sets": 3, "Reps": 10, "RPE": "-", "Note": "單腿補強"},
-                {"Lift": "臥推 Bench", "Weight": "依課表", "Sets": "依課表", "Reps": "依課表", "RPE": "-", "Note": "結尾"}
+                {"Lift": "深蹲 Squat", "Weight": "60-70", "Sets": 3, "Reps": 5, "RPE": "6", "Note": "動態恢復"},
+                {"Lift": "保加利亞蹲 Bulgarian", "Weight": "自重", "Sets": 3, "Reps": 10, "RPE": "-", "Note": "單腿補強"},
+                {"Lift": "臥推 Bench", "Weight": "30", "Sets": 3, "Reps": 3, "RPE": "7", "Note": "最後強度"}
             ]
         }
     },
@@ -121,15 +120,15 @@ feb_schedule = {
         "D1": {
             "Day_Note": "Deload (減量)",
             "Exercises": [
-                {"Lift": "深蹲 Squat", "Weight": "Light", "Sets": 3, "Reps": 5, "RPE": "4", "Note": "減量"},
-                {"Lift": "臥推 Bench", "Weight": "Light", "Sets": 3, "Reps": 5, "RPE": "4", "Note": "減量"}
+                {"Lift": "深蹲 Squat", "Weight": "45-50", "Sets": 3, "Reps": 5, "RPE": "4", "Note": "減量"},
+                {"Lift": "臥推 Bench", "Weight": "20", "Sets": 3, "Reps": 5, "RPE": "4", "Note": "減量"}
             ]
         },
         "D2": {
             "Day_Note": "Deload (減量)",
             "Exercises": [
-                {"Lift": "深蹲 Squat", "Weight": "Light", "Sets": 3, "Reps": 5, "RPE": "4", "Note": "減量"},
-                {"Lift": "臥推 Bench", "Weight": "Light", "Sets": 3, "Reps": 5, "RPE": "4", "Note": "減量"}
+                {"Lift": "深蹲 Squat", "Weight": "40", "Sets": 2, "Reps": 5, "RPE": "3", "Note": "極輕"},
+                {"Lift": "臥推 Bench", "Weight": "15", "Sets": 2, "Reps": 5, "RPE": "3", "Note": "極輕"}
             ]
         },
         "D3": {
@@ -252,7 +251,7 @@ with tab1:
                 c3.metric("次數", ex['Reps'])
                 st.caption(f"🎯 RPE: {ex['RPE']} | 📝 {ex['Note']}")
                 
-                # Checkbox 邏輯：如果 sets 是數字則顯示多個框，如果是字串(如'依課表')則顯示一個總框
+                # Checkbox 邏輯：如果 sets 是數字則顯示多個框
                 if isinstance(ex['Sets'], int):
                     cols = st.columns(min(ex['Sets'], 8))
                     for j in range(ex['Sets']):

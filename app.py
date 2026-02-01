@@ -15,7 +15,7 @@ if 'log_df' not in st.session_state:
 # 1. 數據中心 (Data Core)
 # ==========================================
 
-# --- 一月數據 (已完成) ---
+# --- 一月數據 ---
 jan_schedule = {
     "W1 (基礎累積)": {
         "D1": {"Day_Note": "重點：適應頻率。核心動作節奏要一致。", "Exercises": [{"Lift": "深蹲 Squat", "Weight": "50-65", "Sets": 5, "Reps": 5, "RPE": "6-7", "Note": "節奏穩定"}, {"Lift": "臥推 Bench", "Weight": "25-27.5", "Sets": 5, "Reps": 5, "RPE": "6", "Note": "停頓確實"}, {"Lift": "死蟲式 Deadbug", "Weight": "BW", "Sets": 3, "Reps": "15", "RPE": "-", "Note": "核心抗伸展"}, {"Lift": "保加利亞蹲", "Weight": "BW", "Sets": 3, "Reps": "10", "RPE": "-", "Note": "單腳穩定"}]},
@@ -39,7 +39,7 @@ jan_schedule = {
     }
 }
 
-# --- 二月數據 (根據備賽邏輯建置框架，請根據 CSV 內容微調) ---
+# --- 二月數據 ---
 feb_schedule = {
     "W1 (強度適應)": {
         "D1": {
@@ -193,17 +193,25 @@ with tab1:
     with col_m:
         selected_month_key = st.selectbox("📅 選擇月份", list(full_program.keys()), index=1) # 預設選二月
     
+    # 取得「該月份」的課表 (Month Data)
     current_month_data = full_program[selected_month_key]
 
-    # 2. 選擇週次與天數
+    # 2. 選擇週次 (Week)
     with col_w:
         selected_week = st.selectbox("選擇週次", list(current_month_data.keys()))
+    
+    # 取得「該週次」的課表 (Week Data)
+    current_week_data = current_month_data[selected_week]
+
+    # 3. 選擇天數 (Day) - 動態讀取該週有的天數
     with col_d:
-        selected_day = st.selectbox("選擇訓練日", ["D1", "D2", "D3"])
+        available_days = list(current_week_data.keys())
+        selected_day = st.selectbox("選擇訓練日", available_days)
 
-    todays_data = current_month_data[selected_day]
+    # 修正重點：現在才抓取「當天」的資料
+    todays_data = current_week_data[selected_day]
 
-    # 3. 顯示課表內容
+    # 顯示課表內容
     if "Day_Note" in todays_data:
         st.info(f"💡 {selected_month_key} / {selected_week} / {selected_day}：{todays_data['Day_Note']}")
     
